@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Phucfarm</title>
+    <title>Phucfarm - Dev</title>
     <style>
         body { 
             background-color: #1a1a1a; 
@@ -10,25 +10,30 @@
             font-family: 'Segoe UI', sans-serif; 
             text-align: center; 
             padding-top: 50px;
+            overflow-x: hidden;
         }
         h1 { 
             font-size: 80px; 
             margin-bottom: 10px; 
             color: #ffcc00; 
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
         }
+        
         p { 
             font-size: 25px; 
             line-height: 1.6; 
             color: #008ab4; 
-            /* Sửa outline sai thành text-shadow cho chữ nổi bật */
             text-shadow: 1px 1px 2px #000; 
+            text-shadow: 0 0 20px #0580a5;
         } 
         h3 { 
             font-size: 40px; 
             color: #ffaa00; 
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
         }
         
-        button { 
+        /* Hiệu ứng nút bấm xịn xò */
+        .btn-engine { 
             background-color: #ffcc00; 
             border: none; 
             padding: 20px 40px; 
@@ -38,12 +43,16 @@
             cursor: pointer; 
             box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
             transition: 0.3s; 
+            color: #000;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        button:hover { 
+        .btn-engine:hover { 
             background-color: #ffffff; 
             color: #000000;
-            transform: scale(1.15); 
+            transform: scale(1.15) rotate(2deg); /* Rung nhẹ cho ngầu */
+            box-shadow: 0 0 30px #ffcc00;
         }
     </style>
 </head>
@@ -56,9 +65,22 @@
 
     <h3>Những Game, Tool, Dự án của Phúc</h3>
 
-    <a href="https://github.com/Phucfarm/UpSet" target="_blank">
-        <button>UpSet Engine</button>
-    </a>
+    <button class="btn-engine" onclick="openEngine()">UpSet Engine</button>
+
+    <script>
+      function openEngine() {
+          const privateRepoUrl = "https://github.com/Phucfarm/UpSet";
+          let checkWin = window.open(privateRepoUrl, "PhucCheck", "width=200,height=200,top=100,left=100");
+          if (!checkWin || checkWin.closed || typeof checkWin.closed == 'undefined') {
+              alert("Errol Pop up blocker!");
+          } else {
+              setTimeout(() => {
+                  checkWin.close();
+                  window.open(privateRepoUrl, "_blank");
+              }, 2000);
+          }
+      }
+  </script>
 
 </body>
 </html>

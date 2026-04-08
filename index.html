@@ -31,6 +31,16 @@
             color: #ffaa00; 
             text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
         }
+        h4 { 
+            font-size: 30px; 
+            color: #cc8902; 
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+            text-align: center;
+            position: relative; 
+            left: -50px; /* Số âm là nhảy sang trái, số dương là sang phải */
+        }
+
+
         
         /* Hiệu ứng nút bấm xịn xò */
         .btn-engine { 
@@ -66,21 +76,40 @@
     <h3>Những Game, Tool, Dự án của Phúc</h3>
 
     <button class="btn-engine" onclick="openEngine()">UpSet Engine</button>
+    <br><br>
+    <button class="btn-engine" onclick="openGame()">Zombie Survile</button>
 
+    <!--<iframe width="641" height="481" src="https://www.youtube.com/embed/xypzmu5mMPY?list=RDxypzmu5mMPY" title="SƠN TÙNG M-TP | MUỘN RỒI MÀ SAO CÒN | OFFICIAL MUSIC VIDEO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="909" height="380" src="https://www.youtube.com/embed/psZ1g9fMfeo?list=RDpsZ1g9fMfeo" title="SƠN TÙNG M-TP | CHÚNG TA CỦA HIỆN TẠI | OFFICIAL MUSIC VIDEO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="855" height="481" src="https://www.youtube.com/embed/obZyywFKqF0" title="Những fact lmao nhất trong thế giới động vật (Phần 3)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="722" height="481" src="https://www.youtube.com/embed/abPmZCZZrFA?list=RDEMeyKnYmm7ScRhnRO9nwOSNA" title="SƠN TÙNG M-TP | ĐỪNG LÀM TRÁI TIM ANH ĐAU | OFFICIAL MUSIC VIDEO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="855" height="481" src="https://www.youtube.com/embed/knW7-x7Y7RE?list=RDEMeyKnYmm7ScRhnRO9nwOSNA" title="SƠN TÙNG M-TP | HÃY TRAO CHO ANH ft. Snoop Dogg | Official MV" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
     <script>
-      function openEngine() {
-          const privateRepoUrl = "https://github.com/Phucfarm/UpSet";
-          let checkWin = window.open(privateRepoUrl, "PhucCheck", "width=200,height=200,top=100,left=100");
-          if (!checkWin || checkWin.closed || typeof checkWin.closed == 'undefined') {
-              alert("Errol Pop up blocker!");
-          } else {
-              setTimeout(() => {
-                  checkWin.close();
-                  window.open(privateRepoUrl, "_blank");
-              }, 2000);
-          }
-      }
-  </script>
+        function openEngine() {
+        const privateRepoUrl = "https://github.com/Phucfarm/UpSet";
+        let checkWin = window.open(privateRepoUrl, "PhucCheck", "width=200,height=200,top=100,left=100");
+        if (!checkWin || checkWin.closed || typeof checkWin.closed == 'undefined') {
+        alert("Errol Pop up blocker!");
+        } else {
+        setTimeout(() => {
+        checkWin.close();
+        window.open(privateRepoUrl, "_blank");
+        }, 2000);
+        }
+        }
+        function openGame() {
+        const privateRepoUrl = "https://github.com/Phucfarm/Zombiesurvile";
+        let checkWin = window.open(privateRepoUrl, "PhucCheck", "width=200,height=200,top=100,left=100");
+        if (!checkWin || checkWin.closed || typeof checkWin.closed == 'undefined') {
+        alert("Errol Pop up blocker!");
+        } else {
+        setTimeout(() => {
+        checkWin.close();
+        window.open(privateRepoUrl, "_blank");
+        }, 2000);
+        }
+        }
+    </script>
 
 </body>
 </html>

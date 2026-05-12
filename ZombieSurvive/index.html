@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | Zombie Survive</title>
+    <style>
+      /* Làm sạch lề và ép trang web chiếm hết màn hình */
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #231F20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Ép khung game luôn giữ tỉ lệ 16:9 */
+      #unity-canvas {
+        width: 100vw; 
+        height: 56.25vw; /* 100 * 9 / 16 */
+        max-width: 177.78vh; /* 100 * 16 / 9 */
+        max-height: 100vh;
+        background: #231F20;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5); /* Thêm tí bóng cho sang */
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+    <script src="Build/ZombieSurvile.loader.js"></script>
+    <script>
+      // Đoạn này nhận diện Mobile để tối ưu thêm nếu cần
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        arguments: [],
+        dataUrl: "Build/ZombieSurvile.data.unityweb",
+        frameworkUrl: "Build/ZombieSurvile.framework.js.unityweb",
+        codeUrl: "Build/ZombieSurvile.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Phucfarm",
+        productName: "Zombie Survive",
+        productVersion: "1.0",
+      }).then((unityInstance) => {
+        // Tự động focus vào game để chơi được phím ngay
+        unityInstance.SendMessage("GameManager", "OnWebGLLoaded"); 
+      }).catch((message) => {
+        alert(message);
+      });
+    </script>
+  </body>
+</html>

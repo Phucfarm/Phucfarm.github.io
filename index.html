@@ -2,125 +2,285 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Phucfarm - Dev</title>
+    <title>Minigame</title>
     <style>
-        body { 
-            background-color: #1a1a1a; 
-            color: #ffffff; 
-            font-family: 'Segoe UI', sans-serif; 
-            text-align: center; 
-            padding-top: 50px;
-            overflow-x: hidden;
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: radial-gradient(circle at 50% 30%, #2b2b45, #14141f 70%);
+            color: #fff;
+            overflow: hidden;
         }
-        h1 { 
-            font-size: 80px; 
-            margin-bottom: 10px; 
-            color: #ffcc00; 
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 24px;
         }
-        
-        p { 
-            font-size: 25px; 
-            line-height: 1.6; 
-            color: #008ab4; 
-            text-shadow: 1px 1px 2px #000; 
-            text-shadow: 0 0 20px #0580a5;
-        } 
-        h3 { 
-            font-size: 40px; 
-            color: #ffaa00; 
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+        h2 {
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(79, 140, 255, 0.5);
         }
-        h2 { 
-            font-size: 35px; 
-            color: #ffaa00; 
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+        #board {
+            position: relative;
+            width: 420px;
+            height: 420px;
         }
-        h4 { 
-            font-size: 30px; 
-            color: #cc8902; 
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+        .ball {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff8a65, #d84315 75%);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.45), inset -6px -6px 14px rgba(0,0,0,0.35);
+            cursor: default;
+            will-change: transform;
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ball.clickable {
+            cursor: pointer;
+        }
+        .ball.clickable:hover {
+            filter: brightness(1.1);
+        }
+        .ball.highlight {
+            background: radial-gradient(circle at 30% 30%, #81d4fa, #0288d1 75%);
+            box-shadow: 0 0 30px 12px #4fc3f7, 0 6px 14px rgba(0,0,0,0.45);
+        }
+        #start-btn {
+            padding: 14px 42px;
+            font-size: 1.15rem;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(135deg, #4f8cff, #2d5fd8);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(79, 140, 255, 0.45);
+            transition: transform 0.15s ease;
+        }
+        #start-btn:hover {
+            transform: translateY(-3px);
+        }
+        #status {
+            min-height: 1.4em;
+            font-size: 1.05rem;
+            opacity: 0.85;
+        }
+        #message-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 10, 16, 0.92);
             text-align: center;
-            position: relative; 
-            left: -50px; /* Số âm là nhảy sang trái, số dương là sang phải */
+            padding: 40px;
+            z-index: 10;
         }
-
-
-        
-        /* Hiệu ứng nút bấm xịn xò */
-        .btn-engine { 
-            background-color: #ffcc00; 
-            border: none; 
-            padding: 20px 40px; 
-            font-size: 24px;
-            font-weight: bold; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
-            transition: 0.3s; 
-            color: #000;
-            text-decoration: none;
-            display: inline-block;
+        #message-overlay.show {
+            display: flex;
         }
-
-        .btn-engine:hover { 
-            background-color: #ffffff; 
-            color: #000000;
-            transform: scale(1.15) rotate(2deg); /* Rung nhẹ cho ngầu */
-            box-shadow: 0 0 30px #ffcc00;
+        #message-text {
+            font-size: 1.8rem;
+            max-width: 700px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
+    <div class="wrap">
+        <h2>Theo dõi quả bóng sáng lên, sau khi bị xáo trộn hãy chọn lại đúng quả đó</h2>
+        <div id="board"></div>
+        <div id="status"></div>
+        <button id="start-btn">Bắt đầu</button>
+    </div>
 
-    <h1>Phucfarm</h1>
+    <div id="message-overlay">
+        <div id="message-text"></div>
+    </div>
 
-    <p>Hello, Tao là phúc:</p>
-    <p> - Là một thằng dev lớp 6</p>
-
-    <h3>Những Game, Tool, Dự án của Phúc</h3>
-
-    <button class="btn-engine" onclick="openEngine()">UpSet Engine</button>
-    <br><br>
-    <button class="btn-engine" onclick="openGame()">Zombie Survive</button>
-    <br><br>
-    <h3>Một số demo của mình</h3>
-    <button class="btn-engine" onclick="openGame2()">Zombie Survive Demo</button>
-
-    <!--<iframe width="641" height="481" src="https://www.youtube.com/embed/xypzmu5mMPY?list=RDxypzmu5mMPY" title="SƠN TÙNG M-TP | MUỘN RỒI MÀ SAO CÒN | OFFICIAL MUSIC VIDEO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <iframe width="909" height="380" src="https://www.youtube.com/embed/psZ1g9fMfeo?list=RDpsZ1g9fMfeo" title="SƠN TÙNG M-TP | CHÚNG TA CỦA HIỆN TẠI | OFFICIAL MUSIC VIDEO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <iframe width="855" height="481" src="https://www.youtube.com/embed/obZyywFKqF0" title="Những fact lmao nhất trong thế giới động vật (Phần 3)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <iframe width="722" height="481" src="https://www.youtube.com/embed/abPmZCZZrFA?list=RDEMeyKnYmm7ScRhnRO9nwOSNA" title="SƠN TÙNG M-TP | ĐỪNG LÀM TRÁI TIM ANH ĐAU | OFFICIAL MUSIC VIDEO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <iframe width="855" height="481" src="https://www.youtube.com/embed/knW7-x7Y7RE?list=RDEMeyKnYmm7ScRhnRO9nwOSNA" title="SƠN TÙNG M-TP | HÃY TRAO CHO ANH ft. Snoop Dogg | Official MV" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
     <script>
-        function openEngine() {
-        const privateRepoUrl = "https://github.com/Phucfarm/UpSet";
-        let checkWin = window.open(privateRepoUrl, "PhucCheck", "width=200,height=200,top=100,left=100");
-        if (!checkWin || checkWin.closed || typeof checkWin.closed == 'undefined') {
-        alert("Errol Pop up blocker!");
-        } else {
-        setTimeout(() => {
-        checkWin.close();
-        window.open(privateRepoUrl, "_blank");
-        }, 2000);
-        }
-        }
-        function openGame() {
-        const privateRepoUrl = "https://github.com/Phucfarm/Zombiesurvile";
-        let checkWin = window.open(privateRepoUrl, "PhucCheck", "width=200,height=200,top=100,left=100");
-        if (!checkWin || checkWin.closed || typeof checkWin.closed == 'undefined') {
-        alert("Errol Pop up blocker!");
-        } else {
-        setTimeout(() => {
-        checkWin.close();
-        window.open(privateRepoUrl, "_blank");
-        }, 2000);
-        }
-        }
-        function openGame2() {
-        window.open("./ZombieSurvive/index.html", "_blank");
-        }
-    </script>
+        const NUM_BALLS = 6;
+        const board = document.getElementById('board');
+        const startBtn = document.getElementById('start-btn');
+        const statusEl = document.getElementById('status');
+        const overlay = document.getElementById('message-overlay');
+        const messageText = document.getElementById('message-text');
 
+        const RICKROLL_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+
+        // ball[i] = DOM element with fixed identity id = i
+        const balls = [];
+        // order[slot] = ballId currently sitting in that slot
+        let order = [];
+        let targetBallId = null;
+        let clickEnabled = false;
+
+        function computePositions() {
+            const size = board.clientWidth; // board is square
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size / 2 - 45;
+            const positions = [];
+            for (let i = 0; i < NUM_BALLS; i++) {
+                const angle = (Math.PI * 2 / NUM_BALLS) * i - Math.PI / 2;
+                positions.push({
+                    x: centerX + radius * Math.cos(angle) - 35,
+                    y: centerY + radius * Math.sin(angle) - 35
+                });
+            }
+            return positions;
+        }
+
+        let positions = [];
+
+        function initBoard() {
+            board.innerHTML = '';
+            balls.length = 0;
+            order = [];
+            for (let i = 0; i < NUM_BALLS; i++) {
+                const el = document.createElement('div');
+                el.className = 'ball';
+                el.dataset.id = i;
+                board.appendChild(el);
+                balls.push(el);
+                order.push(i);
+            }
+            positions = computePositions();
+            placeBalls();
+        }
+
+        function placeBalls() {
+            for (let slot = 0; slot < NUM_BALLS; slot++) {
+                const ballId = order[slot];
+                const pos = positions[slot];
+                balls[ballId].style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+            }
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function showMessage(text) {
+            messageText.textContent = text;
+            overlay.classList.add('show');
+        }
+
+        function hideMessage() {
+            overlay.classList.remove('show');
+        }
+
+        function setStatus(text) {
+            statusEl.textContent = text;
+        }
+
+        function shuffleStep(remainingTime, doneCallback) {
+            if (remainingTime <= 0) {
+                doneCallback();
+                return;
+            }
+            const stepDuration = randomInt(140, 200);
+            const slotA = randomInt(0, NUM_BALLS - 1);
+            let slotB = randomInt(0, NUM_BALLS - 1);
+            while (slotB === slotA) {
+                slotB = randomInt(0, NUM_BALLS - 1);
+            }
+            // swap
+            const tmp = order[slotA];
+            order[slotA] = order[slotB];
+            order[slotB] = tmp;
+            placeBalls();
+
+            setTimeout(() => {
+                shuffleStep(remainingTime - stepDuration, doneCallback);
+            }, stepDuration);
+        }
+
+        function enableClicks() {
+            clickEnabled = true;
+            balls.forEach(b => {
+                b.classList.add('clickable');
+                b.addEventListener('click', onBallClick);
+            });
+            setStatus('Chọn quả bóng bạn nghĩ là quả ban đầu được sáng lên!');
+        }
+
+        function disableClicks() {
+            clickEnabled = false;
+            balls.forEach(b => {
+                b.classList.remove('clickable');
+                b.removeEventListener('click', onBallClick);
+            });
+        }
+
+        function onBallClick(e) {
+            if (!clickEnabled) return;
+            const chosenId = parseInt(e.currentTarget.dataset.id, 10);
+            disableClicks();
+
+            if (chosenId === targetBallId) {
+                // ĐÚNG
+                e.currentTarget.classList.add('highlight');
+                setStatus('');
+                setTimeout(() => {
+                    showMessage("Đúng!, nhưng mày vừa phí thời gian để chơi cái này🤡");
+                    setTimeout(() => {
+                        
+                    }, 2500);
+                }, 400);
+            } else {
+                // SAI - mở thẳng link rickroll trong tab mới
+                setStatus('');
+                showMessage("Mày bị ngu à?");
+                setTimeout(() => {
+                    window.open(RICKROLL_URL, "_blank");
+                    hideMessage();
+                    startBtn.style.display = 'inline-block';
+                }, 2000);
+            }
+        }
+
+        function startRound() {
+            startBtn.style.display = 'none';
+            hideMessage();
+            initBoard();
+            setStatus('Chú ý quả bóng sắp sáng lên...');
+
+            // reset order mỗi round
+            targetBallId = randomInt(0, NUM_BALLS - 1);
+
+            setTimeout(() => {
+                balls[targetBallId].classList.add('highlight');
+                setStatus('Ghi nhớ quả bóng này!');
+
+                setTimeout(() => {
+                    balls[targetBallId].classList.remove('highlight');
+                    setStatus('Đang xáo trộn...');
+
+                    const shuffleDuration = randomInt(8000, 12000);
+                    shuffleStep(shuffleDuration, () => {
+                        enableClicks();
+                    });
+                }, 1600);
+            }, 600);
+        }
+
+        startBtn.addEventListener('click', startRound);
+
+        window.addEventListener('resize', () => {
+            if (balls.length) {
+                positions = computePositions();
+                placeBalls();
+            }
+        });
+    </script>
 </body>
 </html>
